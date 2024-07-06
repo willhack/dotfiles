@@ -7,7 +7,6 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -39,18 +38,19 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+#
 alias zz="exec zsh"
+alias lg="lazygit"
 
 alias n="nvim ."
-alias nc="nvim ~/.config/nvim/init.lua"
+alias nc="cd ~/.config/nvim && nvim ."
 alias zc="nvim ~/.zshrc"
 alias wc="nvim ~/.wezterm.lua"
-alias dc="nvim ~/repos/qmk_firmware/keyboards/draculad/keymaps/gotham/keymap.c"
-alias df="cd ~/repos/qmk_firmware/keyboards/draculad/keymaps/gotham"
+alias dc="cd ~/repos/qmk_firmware/keyboards/draculad/keymaps/gotham && nvim ."
+alias tc="cd ~/repos/total-typescript/react-typescript-tutorial/src/05-generics && nvim ."
 
 alias fk="qmk compile -j 0 && qmk flash" 
 
-alias tt="nvim ~/repos/total-typescript/react-typescript-tutorial/src/04-advanced-props/25-toggle-props.problem.tsx"
 alias rh="rustlings hint next"
 alias rw="rustlings watch"
 
@@ -61,6 +61,10 @@ eval "$(fnm env --use-on-cd)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# QMK completions
+source ~/repos/qmk_firmware/util/qmk_tab_complete.sh
+autoload -Uz bashcompinit && bashcompinit
 
 # bun completions
 [ -s "/Users/will/.bun/_bun" ] && source "/Users/will/.bun/_bun"
