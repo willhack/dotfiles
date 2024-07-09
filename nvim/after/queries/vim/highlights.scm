@@ -1,0 +1,4 @@
+; inherits: vim
+
+(identifier)
+

@@ -1,0 +1,4 @@
+; inherits: javascript
+
+(identifier)
+

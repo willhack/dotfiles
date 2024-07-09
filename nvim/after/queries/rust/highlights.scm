@@ -1,0 +1,4 @@
+; inherits: rust
+
+(identifier)
+
