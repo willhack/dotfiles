@@ -15,4 +15,9 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
   },
+  {
+    'folke/persistence.nvim',
+    event = 'BufReadPre',
+    opts = {},
+  },
 }
