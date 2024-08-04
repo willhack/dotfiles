@@ -24,12 +24,16 @@ return {
       }
     end,
     formatters_by_ft = {
+      css = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
       lua = { 'stylua' },
-      javascript = { { 'prettier', 'prettierd' } },
-      javascriptreact = { { 'prettier', 'prettierd' } },
-      markdown = { 'prettier' },
-      typescript = { { 'prettier', 'prettierd' } },
-      typescriptreact = { { 'prettier', 'prettierd' } },
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'prettierd', 'prettier', stop_after_first = true },
+      jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd' },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
     },
   },
 }
