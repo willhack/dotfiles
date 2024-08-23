@@ -249,9 +249,6 @@ require('lazy').setup({
           --  the definition of its *type*, not where it was *defined*.
           map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
-          -- Exploooore
-          map('<leader>pv', ':Ex<cr>', '[P]roject [V]iew')
-
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
           map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
@@ -350,6 +347,14 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        opts = {
+          servers = {
+            tsserver = {
+              enable = false,
+            },
+            vtsls = {},
+          },
+        },
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -445,6 +450,9 @@ vim.api.nvim_set_hl(0, 'TreesitterContextBottom', { underline = true })
 vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'none' })
 
 vim.cmd [[colorscheme catppuccin]]
+
+-- Exploooore
+vim.keymap.set('n', '<leader>pv', ':Ex<cr>', { desc = '[P]roject [V]iew' })
 vim.keymap.set('n', '<leader>gc', function()
   require('treesitter-context').go_to_context(vim.v.count1)
 end, { silent = true, desc = 'Go to [C]ontext' })

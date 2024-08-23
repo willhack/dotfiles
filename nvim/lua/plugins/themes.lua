@@ -36,7 +36,7 @@ local themes = {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
-    -- opts = { transparent_background = true },
+    opts = { transparent_background = true },
   },
   {
     'lunarvim/synthwave84.nvim',

@@ -9,3 +9,10 @@ Loosey
 aqx
 unmaintained
 dep
+bundlers
+ESM
+CJS
+utils
+artifactory
+Webpack
+Vite

@@ -49,6 +49,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --  All the info you're looking for is in `:help telescope.setup()`
       --
       defaults = {
+        file_ignore_patterns = {
+          'package%-lock.json',
+        },
         wrap_results = true,
         --   mappings = {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
