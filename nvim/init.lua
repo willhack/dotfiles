@@ -48,6 +48,7 @@ vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus'
 
 vim.opt.breakindent = true
+vim.opt.linebreak = true
 
 -- [[ Setting options ]]
 -- Save undo history
@@ -147,7 +148,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-vim.cmd [[set wildignore+=kanagawa-lotus.vim,vim.lua,minicyan.lua,minischeme.lua,randomhue.lua,blue.vim,darkblue.vim,delek.vim,desert.vim,elflord.vim,evening.vim,habamax.vim,industry.vim,koehler.vim,lunaperche.vim,morning.vim,murphy.vim,pablo.vim,peachpuff.vim,quiet.vim,retrobox.vim,ron.vim,shine.vim,slate.vim,sorbet.vim,torte.vim,vim.vim,wildcharm.vim,zaibatsu.vim,zellner.vim]]
+vim.cmd [[set wildignore+=vim.lua,minicyan.lua,minischeme.lua,randomhue.lua,blue.vim,darkblue.vim,delek.vim,desert.vim,elflord.vim,evening.vim,habamax.vim,industry.vim,koehler.vim,lunaperche.vim,morning.vim,murphy.vim,pablo.vim,peachpuff.vim,quiet.vim,retrobox.vim,ron.vim,shine.vim,slate.vim,sorbet.vim,torte.vim,vim.vim,wildcharm.vim,zaibatsu.vim,zellner.vim]]
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -273,6 +274,17 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+            border = 'rounded',
+            close_events = { 'BufHidden', 'InsertLeave' },
+          })
+          vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+            border = 'rounded',
+          })
+          vim.diagnostic.config {
+            float = { border = 'rounded' },
+          }
+
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -319,9 +331,15 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
+        astro = {},
+        cpplint = {},
         rust_analyzer = {},
-        tsserver = {},
+        ts_ls = {},
+        eslint = {
+          settings = {
+            workingDirectories = { mode = 'auto' },
+          },
+        },
         vim.diagnostic.config { update_in_insert = true },
         lua_ls = {
           settings = {
@@ -336,7 +354,11 @@ require('lazy').setup({
       --  To check the current status of installed tools and/or manually install
       --  other tools, you can run
       --    :Mason
-      require('mason').setup()
+      require('mason').setup {
+        ui = {
+          border = 'rounded',
+        },
+      }
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
@@ -349,10 +371,9 @@ require('lazy').setup({
       require('mason-lspconfig').setup {
         opts = {
           servers = {
-            tsserver = {
+            ts_ls = {
               enable = false,
             },
-            vtsls = {},
           },
         },
         handlers = {
@@ -360,7 +381,7 @@ require('lazy').setup({
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
+            -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
@@ -444,11 +465,31 @@ require('lazy').setup({
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {},
+    border = 'rounded',
   },
 })
 vim.api.nvim_set_hl(0, 'TreesitterContextBottom', { underline = true })
 vim.api.nvim_set_hl(0, 'TreesitterContext', { bg = 'none' })
 
+DiagnosticLevel = function(level)
+  return not vim.tbl_isempty(vim.diagnostic.get(0, { severity = vim.diagnostic.severity[level] }))
+end
+vim.api.nvim_create_autocmd({ 'DiagnosticChanged' }, {
+  desc = 'Change Filename color based on linter',
+  callback = function()
+    local level = 'clear'
+    if DiagnosticLevel 'ERROR' then
+      level = 'DiagnosticVirtualTextError'
+    elseif DiagnosticLevel 'WARN' then
+      level = 'DiagnosticVirtualTextWarn'
+    elseif DiagnosticLevel 'INFO' then
+      level = 'DiagnosticVirtualTextInfo'
+    elseif DiagnosticLevel 'HINT' then
+      level = 'DiagnosticVirtualTextHint'
+    end
+    vim.cmd('hi! link MiniStatuslineFilename ' .. level)
+  end,
+})
 vim.cmd [[colorscheme catppuccin]]
 
 -- Exploooore

@@ -3,3 +3,7 @@
 	name = Will Hack
 [rerere]
 	enabled = true
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true

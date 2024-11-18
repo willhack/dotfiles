@@ -20,5 +20,6 @@ config.macos_window_background_blur = 20
 -- config.scrollback_lines = 3500
 config.window_background_opacity = 0.82
 config.use_fancy_tab_bar = false
+config.max_fps = 240
 
 return config

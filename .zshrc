@@ -47,7 +47,7 @@ alias nc="cd ~/.config/nvim && nvim ."
 alias zc="nvim ~/.zshrc"
 alias wc="nvim ~/.wezterm.lua"
 alias dc="cd ~/repos/qmk_firmware/keyboards/draculad/keymaps/gotham && nvim ."
-alias tc="cd ~/repos/total-typescript/react-typescript-tutorial/src/05-generics && nvim ."
+alias tc="cd ~/repos/total-typescript/react-typescript-tutorial/src/06-advanced-hooks && nvim ."
 
 alias fk="qmk compile -j 0 && qmk flash" 
 
